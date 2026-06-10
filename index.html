@@ -2,250 +2,396 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brigade Ministry Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>PCEA Kasarani West Parish | Boys & Girls Brigade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .hidden { display: none !important; }
-        .spinner { border: 4px solid rgba(0,0,0,0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: #09f; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 10% 20%, #f5f8fa 0%, #e6f0f5 100%);
+            background-attachment: fixed;
+            color: #1e2f3d;
+            line-height: 1.5;
+            padding: 1.5rem 1rem 3rem;
+            min-height: 100vh;
+        }
+
+        /* responsive container */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* glass cards */
+        .card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* hero */
+        .hero {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(10,37,64,0.92), rgba(27,74,110,0.92));
+            color: white;
+            border-radius: 3rem;
+            padding: 2rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .logo-img {
+            width: min(100px, 25vw);
+            height: auto;
+            border-radius: 20px;
+            background: white;
+            padding: 6px;
+        }
+        .hero h1 { font-size: clamp(1.4rem, 5vw, 2rem); }
+        .hero h2 { font-size: clamp(1.1rem, 4vw, 1.5rem); }
+        .motto { font-size: clamp(0.85rem, 3vw, 1rem); }
+
+        /* section titles */
+        .section-title {
+            font-size: clamp(1.3rem, 4vw, 1.7rem);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-left: 5px solid #f4a261;
+            padding-left: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        /* login panel: two columns on desktop, stack on mobile */
+        .split-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* forms */
+        .form-group { margin-bottom: 1rem; }
+        label { font-weight: 600; margin-bottom: 0.3rem; display: block; }
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #cfdfe9;
+            border-radius: 2rem;
+            font-size: 0.95rem;
+        }
+
+        button {
+            background: #0f3b2c;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        button:hover { background: #f4a261; transform: scale(1.02); }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #0f3b2c;
+            color: #0f3b2c;
+        }
+        .btn-outline:hover { background: #0f3b2c; color: white; }
+
+        /* attendance grid */
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+        .badge-card {
+            background: #fef7e8;
+            border-radius: 1.8rem;
+            padding: 1rem;
+            border-left: 6px solid #f4a261;
+        }
+        .learner-list {
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        .learner-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2d9cd;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .attendance-select {
+            width: auto;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+        }
+
+        .dashboard-card {
+            background: rgba(255,255,240,0.7);
+            border-radius: 2rem;
+            padding: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .flex-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .message {
+            padding: 0.7rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+        }
+        .success { background: #e0f7e8; color: #1e6f3f; border-left: 5px solid #2ecc71; }
+        .error { background: #fee9e6; color: #c0392b; border-left: 5px solid #e74c3c; }
+        .hidden { display: none; }
+
+        /* orientation fine‑tuning */
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            .card { padding: 1.2rem; }
+            .hero { padding: 1.5rem; }
+            .learner-item { flex-direction: column; align-items: flex-start; }
+            button { width: 100%; justify-content: center; }
+        }
+        @media (orientation: landscape) and (max-height: 500px) {
+            .hero { margin-bottom: 1rem; padding: 1rem; }
+            .badge-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+        }
     </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
-
-    <nav class="bg-blue-800 text-white p-4 shadow-md flex justify-between items-center">
-        <h1 class="text-xl font-bold">Brigade Ministry</h1>
-        <div>
-            <button onclick="showPage('home')" class="mr-4 hover:underline">Home</button>
-            <button id="nav-login" onclick="showPage('login')" class="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500">Login</button>
-            <button id="nav-logout" onclick="logout()" class="hidden bg-red-600 px-4 py-2 rounded hover:bg-red-500">Logout</button>
-        </div>
-    </nav>
-
-    <div id="loading" class="hidden fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50">
-        <div class="spinner"></div>
+<body>
+<div class="container">
+    <div class="hero">
+        <div class="logo-wrapper"><img class="logo-img" id="brigadeLogo" src="https://drive.google.com/uc?export=download&id=1mOD2u97ghDcyKXTo7Wi3mdfdj8773VgW" alt="Brigade Logo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' fill=\'%23f4a261\'/%3E%3Ctext x=\'50\' y=\'67\' font-size=\'40\' text-anchor=\'middle\' fill=\'white\'%3EB%3C/text%3E%3C/svg%3E';"></div>
+        <h1>P.C.E.A Kasarani West Parish</h1>
+        <h2>Boys & Girls Brigade</h2>
+        <div class="motto">“Keeping the Body, Mind and Soul Alert for Christ!”</div>
     </div>
 
-    <div id="page-home" class="container mx-auto p-6">
-        <h2 class="text-3xl font-bold mb-6">Latest Announcements</h2>
-        <div id="announcements-container" class="space-y-4">
-            <p class="text-gray-600">Loading announcements...</p>
-        </div>
+    <div class="card">
+        <div class="section-title"><i class="fas fa-bullhorn"></i> Announcements</div>
+        <div id="announcementsContainer">Loading announcements...</div>
     </div>
 
-    <div id="page-login" class="hidden container mx-auto p-6 max-w-md mt-10">
-        <div class="bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-center">Portal Login</h2>
-            <input type="text" id="username" placeholder="Username" class="w-full mb-4 p-2 border rounded">
-            <input type="password" id="password" placeholder="Password" class="w-full mb-6 p-2 border rounded">
-            <button onclick="handleLogin()" class="w-full bg-blue-800 text-white p-2 rounded hover:bg-blue-700">Sign In</button>
-            <p id="login-error" class="text-red-500 text-sm mt-2 hidden">Invalid credentials.</p>
+    <div class="split-panel" id="loginPanel">
+        <div id="officerLoginCard" class="card">
+            <div class="section-title"><i class="fas fa-chalkboard-user"></i> Officer's Access</div>
+            <div class="form-group"><label>Congregation</label><select id="officerCongregation"><option>Kasarani</option><option>Joyvalley</option></select></div>
+            <div class="form-group"><label>Username</label><input type="text" id="officerUsername"></div>
+            <div class="form-group"><label>Password</label><input type="password" id="officerPassword"></div>
+            <button id="officerLoginBtn"><i class="fas fa-key"></i> Login as Officer</button>
+            <div id="officerLoginMsg" class="message hidden"></div>
         </div>
-    </div>
-
-    <div id="page-admin" class="hidden container mx-auto p-6">
-        <h2 class="text-3xl font-bold mb-6">Admin Portal</h2>
-        
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h3 class="text-xl font-bold mb-4">Post Announcement</h3>
-            <input type="text" id="ann-title" placeholder="Announcement Title" class="w-full mb-4 p-2 border rounded">
-            <textarea id="ann-content" placeholder="Content..." class="w-full mb-4 p-2 border rounded h-32"></textarea>
-            <button onclick="postAnnouncement()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-500">Publish</button>
+        <div id="adminLoginCard" class="card">
+            <div class="section-title"><i class="fas fa-user-shield"></i> Administrator Login</div>
+            <div class="form-group"><label>Username</label><input type="text" id="adminUsername"></div>
+            <div class="form-group"><label>Password</label><input type="password" id="adminPassword"></div>
+            <button id="adminLoginBtn"><i class="fas fa-lock"></i> Login as Admin</button>
+            <div id="adminLoginMsg" class="message hidden"></div>
         </div>
     </div>
 
-    <div id="page-teacher" class="hidden container mx-auto p-6">
-        <h2 class="text-3xl font-bold mb-6">Officer's Portal</h2>
-        
-        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-            <h3 class="text-xl font-bold mb-4">Mark Attendance</h3>
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <input type="date" id="att-date" class="p-2 border rounded">
-                <select id="att-class" class="p-2 border rounded">
-                    <option value="" disabled selected>Select Class Taught...</option>
-                    <option value="Agriculture">Agriculture</option>
-                    <option value="Art & Craft">Art & Craft</option>
-                    <option value="Sexuality">Sexuality</option>
-                    <option value="Fundamentals">Fundamentals</option>
-                </select>
-            </div>
-            
-            <div id="roster-container" class="mb-4">
-                <p class="text-sm text-gray-500">Loading roster...</p>
-            </div>
-            <button onclick="submitAttendance()" class="bg-blue-800 text-white px-6 py-2 rounded hover:bg-blue-700">Submit Register</button>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-bold mb-4">Enroll New Brigadier</h3>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSco770iozwEJSSOThi1UUuAACVtcU5a7vvdpPH6j6pRpE8prw/viewform?usp=publish-editor" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-        </div>
+    <div id="officerDashboard" class="card hidden">
+        <div class="flex-btns" style="justify-content: space-between;"><div class="section-title" style="margin-bottom:0;"><i class="fas fa-clipboard-list"></i> Officer Dashboard</div><button id="officerLogoutBtn" class="btn-outline">Logout</button></div>
+        <div id="attendanceGridArea"></div>
+        <div style="margin-top:1.5rem; text-align:center;"><button id="submitAttendanceFinalBtn">Submit Attendance</button></div>
+        <div id="attendanceMsg"></div>
     </div>
 
-    <script>
-        // --- CONFIGURATION ---
-        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyGn2qiB0mO2Z4QlJOEfpmFESEL_rZxlvCWL7a-1_iAn2NMxJATL1_jcM9gpP6siux6/exec';
-        let currentUser = null;
+    <div id="adminDashboard" class="card hidden">
+        <div class="flex-btns" style="justify-content: space-between;"><div class="section-title"><i class="fas fa-cogs"></i> Admin Panel</div><button id="adminLogoutBtn" class="btn-outline">Logout</button></div>
+        <div class="dashboard-card"><h3>Manage Officers</h3><div id="officersListAdmin"></div><button id="showAddOfficerFormBtn" class="btn-outline">+ Add Officer</button><div id="addOfficerSection" class="hidden" style="margin-top:1rem;"><input type="text" id="newOfficerName" placeholder="Full Name"><input type="text" id="newOfficerUsername" placeholder="Username"><input type="password" id="newOfficerPassword" placeholder="Password"><select id="newOfficerCongregation"><option>Kasarani</option><option>Joyvalley</option></select><button id="confirmAddOfficerBtn">Save</button></div></div>
+        <div class="dashboard-card"><h3>Manage Brigadiers</h3><div id="learnersListAdmin"></div><button id="showAddLearnerFormBtn" class="btn-outline">+ Add Brigadier</button><div id="addLearnerSection" class="hidden"><input type="text" id="learnerFullName" placeholder="Full Name"><select id="learnerCongregationSelect"><option>Kasarani</option><option>Joyvalley</option></select><select id="learnerBadgeSelect"><option>Fundamentals</option><option>Art & Craft</option><option>Agriculture</option><option>Sexuality</option><option>Christian Education</option></select><button id="confirmAddLearnerBtn">Save</button></div><hr><button id="openGoogleFormAdminBtn"><i class="fab fa-google"></i> Open Registration Form</button></div>
+        <div class="dashboard-card"><h3>Announcements</h3><input type="text" id="annTitle" placeholder="Title"><textarea id="annContent" rows="2" placeholder="Content"></textarea><button id="postAnnouncementAdminBtn">Post</button><div id="adminAnnouncementsList"></div></div>
+    </div>
 
-        // --- UI ROUTING ---
-        function showPage(pageId) {
-            document.querySelectorAll('div[id^="page-"]').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`page-${pageId}`).classList.remove('hidden');
-            if (pageId === 'home') loadAnnouncements();
-            if (pageId === 'teacher') loadRoster();
-        }
+    <div class="card">
+        <div class="section-title"><i class="fas fa-folder-open"></i> Resources</div>
+        <div class="flex-btns"><button id="calendarBtn"><i class="fas fa-calendar-alt"></i> Calendar</button><button id="notesBtn"><i class="fas fa-file-alt"></i> Notes</button></div>
+    </div>
+</div>
 
-        function toggleLoading(show) {
-            document.getElementById('loading').style.display = show ? 'flex' : 'none';
-        }
+<script>
+    // ======================= CONFIGURATION ===========================
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzwPQcYUg5jjMdwVeAJf_Lot6N1iYPEteEYoDtisaKM7lgkM9_w18mXQ5PKf6gWk8RU/exec';   // <-- PASTE YOUR WEB APP URL HERE
+    const ADMIN_FIXED_CONGREGATION = 'Kasarani';   // Must match admin's congregation
+    // =================================================================
+    let currentSessionId = null, currentRole = null, currentCongregation = null, currentOfficerAttendanceRecords = [];
 
-        // --- API CALLS ---
-        async function fetchAPI(action, payload = null) {
-            try {
-                if (!payload) {
-                    const res = await fetch(`${GAS_URL}?action=${action}`);
-                    return await res.json();
-                } else {
-                    const res = await fetch(GAS_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'text/plain' }, // text/plain prevents CORS preflight issues with GAS
-                        body: JSON.stringify({ action, ...payload })
-                    });
-                    return await res.json();
-                }
-            } catch (error) {
-                console.error("API Error:", error);
-                alert("Network error communicating with the database.");
+    async function callApi(action, params = {}) {
+        const payload = { action, ...params };
+        if (currentSessionId) payload.sessionId = currentSessionId;
+        try {
+            const response = await fetch(WEB_APP_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            return await response.json();
+        } catch (err) { return { success: false, error: err.message }; }
+    }
+    function showMessage(containerId, text, isError = false) {
+        const div = document.getElementById(containerId);
+        if (div) { div.innerHTML = `<div class="message ${isError ? 'error' : 'success'}">${text}</div>`; setTimeout(() => div.innerHTML = '', 4000); }
+    }
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+
+    async function loadAnnouncements() {
+        const container = document.getElementById('announcementsContainer');
+        container.innerHTML = 'Loading...';
+        const result = await callApi('getAnnouncements');
+        if (Array.isArray(result)) {
+            if (!result.length) { container.innerHTML = '<div class="message">No announcements yet.</div>'; return; }
+            container.innerHTML = result.map(ann => `<div class="announcement-item"><strong>${escapeHtml(ann.title)}</strong><br>${escapeHtml(ann.content)}<br><small>${new Date(ann.date).toLocaleDateString()}</small></div>`).join('');
+        } else container.innerHTML = '<div class="message error">Failed to load.</div>';
+    }
+
+    // Officer
+    async function officerLogin() {
+        const username = document.getElementById('officerUsername').value.trim();
+        const password = document.getElementById('officerPassword').value;
+        const congregation = document.getElementById('officerCongregation').value;
+        if (!username || !password) { showMessage('officerLoginMsg', 'Enter credentials', true); return; }
+        const res = await callApi('doLogin', { username, password, congregation });
+        if (res.success && (res.role === 'Officer' || res.role === 'Admin')) {
+            currentSessionId = res.sessionId; currentRole = 'Officer'; currentCongregation = congregation;
+            document.getElementById('officerLoginCard').classList.add('hidden');
+            document.getElementById('officerDashboard').classList.remove('hidden');
+            await loadOfficerAttendanceGrid();
+        } else showMessage('officerLoginMsg', res.error || 'Login failed', true);
+    }
+    async function loadOfficerAttendanceGrid() {
+        const learners = await callApi('getLearnersByCongregation', { congregation: currentCongregation });
+        if (!learners || !learners.length) { document.getElementById('attendanceGridArea').innerHTML = '<div class="message">No brigadiers.</div>'; return; }
+        const badges = ['Fundamentals', 'Art & Craft', 'Agriculture', 'Sexuality', 'Christian Education'];
+        let html = '<div class="badge-grid">';
+        currentOfficerAttendanceRecords = [];
+        for (const badge of badges) {
+            const badgeLearners = learners.filter(l => l.currentBadge === badge);
+            if (!badgeLearners.length) continue;
+            html += `<div class="badge-card"><h4>${badge}</h4><div class="learner-list">`;
+            for (const l of badgeLearners) {
+                currentOfficerAttendanceRecords.push({ badge, learnerId: l.id, status: 'Present' });
+                html += `<div class="learner-item"><span>${escapeHtml(l.name)}</span><select data-badge="${badge}" data-learner="${l.id}" class="attendance-select status-select"><option value="Present">Present</option><option value="Absent">Absent</option></select></div>`;
             }
+            html += `</div></div>`;
         }
+        html += '</div>';
+        document.getElementById('attendanceGridArea').innerHTML = html;
+        document.querySelectorAll('.status-select').forEach(sel => sel.addEventListener('change', e => {
+            const badge = sel.dataset.badge, learnerId = sel.dataset.learner;
+            const rec = currentOfficerAttendanceRecords.find(r => r.badge === badge && r.learnerId === learnerId);
+            if (rec) rec.status = sel.value;
+        }));
+    }
+    document.getElementById('submitAttendanceFinalBtn')?.addEventListener('click', async () => {
+        const toSubmit = currentOfficerAttendanceRecords.map(r => ({ badge: r.badge, learnerId: r.learnerId, status: r.status }));
+        if (!toSubmit.length) { showMessage('attendanceMsg', 'No records', true); return; }
+        const res = await callApi('markAttendance', { attendanceData: toSubmit });
+        if (res.success) showMessage('attendanceMsg', `Saved ${res.count} records`);
+        else showMessage('attendanceMsg', res.error, true);
+    });
 
-        // --- AUTHENTICATION ---
-        async function handleLogin() {
-            toggleLoading(true);
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            
-            const response = await fetchAPI('login', { username: user, password: pass });
-            toggleLoading(false);
-
-            if (response && response.success) {
-                currentUser = response;
-                document.getElementById('nav-login').classList.add('hidden');
-                document.getElementById('nav-logout').classList.remove('hidden');
-                
-                if (currentUser.role === 'Admin') showPage('admin');
-                if (currentUser.role === 'Teacher') showPage('teacher');
-            } else {
-                document.getElementById('login-error').classList.remove('hidden');
-            }
+    // Admin
+    async function adminLogin() {
+        const username = document.getElementById('adminUsername').value.trim();
+        const password = document.getElementById('adminPassword').value;
+        if (!username || !password) { showMessage('adminLoginMsg', 'Enter credentials', true); return; }
+        const res = await callApi('doLogin', { username, password, congregation: ADMIN_FIXED_CONGREGATION });
+        if (res.success && res.role === 'Admin') {
+            currentSessionId = res.sessionId; currentRole = 'Admin';
+            document.getElementById('adminLoginCard').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            await loadAdminData();
+        } else showMessage('adminLoginMsg', res.error || 'Admin login failed', true);
+    }
+    async function loadAdminData() {
+        const data = await callApi('getAdminData');
+        if (data && data.success) {
+            renderOfficers(data.officers); renderLearners(data.learners); renderAdminAnnouncements(data.announcements);
         }
+    }
+    function renderOfficers(officers) {
+        const container = document.getElementById('officersListAdmin');
+        if (!officers.length) { container.innerHTML = '<p>No officers.</p>'; return; }
+        container.innerHTML = officers.map(o => `<div style="display:flex; justify-content:space-between; padding:0.5rem 0;"><span>${escapeHtml(o.name)} (${escapeHtml(o.username)}) - ${o.congregation}</span><button onclick="window.deleteOfficerFromSystem('${escapeHtml(o.username)}')" class="btn-outline">Remove</button></div>`).join('');
+    }
+    window.deleteOfficerFromSystem = async (username) => { if(confirm('Remove?')) { const res = await callApi('deleteOfficer', { username }); if(res.success) loadAdminData(); else alert('Failed'); } };
+    function renderLearners(learners) {
+        const container = document.getElementById('learnersListAdmin');
+        if (!learners.length) { container.innerHTML = '<p>No brigadiers.</p>'; return; }
+        container.innerHTML = learners.map(l => `<div style="border-bottom:1px solid #eee; padding:0.5rem 0;"><strong>${escapeHtml(l.name)}</strong> (${l.id}) - ${l.congregation} | Badge: ${l.currentBadge}<div class="flex-btns"><select id="badgeSelect_${l.id}"><option>Fundamentals</option><option>Art & Craft</option><option>Agriculture</option><option>Sexuality</option><option>Christian Education</option></select><button onclick="window.updateLearnerBadgeSys('${l.id}')">Move</button><button onclick="window.deleteLearnerSys('${l.id}')">Delete</button></div></div>`).join('');
+    }
+    window.updateLearnerBadgeSys = async (learnerId) => { const newBadge = document.getElementById(`badgeSelect_${learnerId}`).value; const res = await callApi('updateLearnerBadge', { learnerId, newBadge }); if(res.success) loadAdminData(); else alert('Error'); };
+    window.deleteLearnerSys = async (learnerId) => { if(confirm('Delete?')) { const res = await callApi('deleteLearner', { learnerId }); if(res.success) loadAdminData(); else alert('Failed'); } };
+    function renderAdminAnnouncements(announcements) {
+        const container = document.getElementById('adminAnnouncementsList');
+        if (!announcements.length) { container.innerHTML = '<p>No announcements.</p>'; return; }
+        container.innerHTML = announcements.map(a => `<div style="display:flex; justify-content:space-between; padding:0.5rem 0;"><span>${escapeHtml(a.title)} (${new Date(a.date).toLocaleDateString()})</span><button onclick="window.deleteAnnouncementAdmin('${a.id}')" class="btn-outline">Delete</button></div>`).join('');
+    }
+    window.deleteAnnouncementAdmin = async (id) => { if(confirm('Delete announcement?')) { const res = await callApi('deleteAnnouncement', { announcementId: id }); if(res.success) { loadAdminData(); loadAnnouncements(); } else alert('Error'); } };
+    document.getElementById('showAddOfficerFormBtn')?.addEventListener('click', () => document.getElementById('addOfficerSection').classList.toggle('hidden'));
+    document.getElementById('confirmAddOfficerBtn')?.addEventListener('click', async () => {
+        const officerData = { fullName: document.getElementById('newOfficerName').value, username: document.getElementById('newOfficerUsername').value, password: document.getElementById('newOfficerPassword').value, congregation: document.getElementById('newOfficerCongregation').value, role: 'Officer' };
+        const res = await callApi('addOfficer', { officerData });
+        if(res.success) { loadAdminData(); document.getElementById('addOfficerSection').classList.add('hidden'); } else alert('Error: '+res.error);
+    });
+    document.getElementById('showAddLearnerFormBtn')?.addEventListener('click', () => document.getElementById('addLearnerSection').classList.toggle('hidden'));
+    document.getElementById('confirmAddLearnerBtn')?.addEventListener('click', async () => {
+        const learnerData = { fullName: document.getElementById('learnerFullName').value, congregation: document.getElementById('learnerCongregationSelect').value, currentBadge: document.getElementById('learnerBadgeSelect').value };
+        const res = await callApi('addLearner', { learnerData });
+        if(res.success) { loadAdminData(); document.getElementById('addLearnerSection').classList.add('hidden'); } else alert('Error');
+    });
+    document.getElementById('postAnnouncementAdminBtn')?.addEventListener('click', async () => {
+        const title = document.getElementById('annTitle').value, content = document.getElementById('annContent').value;
+        if(!title || !content) { alert('Fill both'); return; }
+        const res = await callApi('saveAnnouncement', { announcement: { title, content } });
+        if(res.success) { document.getElementById('annTitle').value = ''; document.getElementById('annContent').value = ''; loadAdminData(); loadAnnouncements(); } else alert('Failed');
+    });
+    document.getElementById('openGoogleFormAdminBtn')?.addEventListener('click', () => {
+        const cong = document.getElementById('learnerCongregationSelect')?.value || 'Kasarani';
+        const badge = document.getElementById('learnerBadgeSelect')?.value || 'Fundamentals';
+        window.open(`https://docs.google.com/forms/d/e/1FAIpQLSeFJ_VeE1Dj77apLzy5NxOx0DKIUyG5-ALusrhOqOcLjPy2mg/viewform?usp=pp_url&entry.2106600396=${encodeURIComponent(cong)}&entry.1747377687=${encodeURIComponent(badge)}`, '_blank');
+    });
+    document.getElementById('calendarBtn')?.addEventListener('click', () => window.open('https://calendar.google.com', '_blank'));
+    document.getElementById('notesBtn')?.addEventListener('click', () => window.open('https://drive.google.com', '_blank'));
 
-        function logout() {
-            currentUser = null;
-            document.getElementById('nav-login').classList.remove('hidden');
-            document.getElementById('nav-logout').classList.add('hidden');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            showPage('home');
-        }
+    async function performLogout() {
+        if(currentSessionId) await callApi('doLogout', { sessionId: currentSessionId });
+        currentSessionId = null; currentRole = null;
+        document.getElementById('officerLoginCard').classList.remove('hidden');
+        document.getElementById('adminLoginCard').classList.remove('hidden');
+        document.getElementById('officerDashboard').classList.add('hidden');
+        document.getElementById('adminDashboard').classList.add('hidden');
+        document.getElementById('officerUsername').value = ''; document.getElementById('officerPassword').value = '';
+        document.getElementById('adminUsername').value = ''; document.getElementById('adminPassword').value = '';
+    }
+    document.getElementById('officerLogoutBtn')?.addEventListener('click', performLogout);
+    document.getElementById('adminLogoutBtn')?.addEventListener('click', performLogout);
+    document.getElementById('officerLoginBtn')?.addEventListener('click', officerLogin);
+    document.getElementById('adminLoginBtn')?.addEventListener('click', adminLogin);
 
-        // --- FEATURES ---
-        async function loadAnnouncements() {
-            const data = await fetchAPI('getAnnouncements');
-            const container = document.getElementById('announcements-container');
-            container.innerHTML = '';
-            
-            if (!data || data.length <= 1) {
-                container.innerHTML = '<p>No announcements yet.</p>';
-                return;
-            }
-
-            // Start from 1 to skip headers, loop backwards for newest first
-            for (let i = data.length - 1; i >= 1; i--) {
-                const date = new Date(data[i][0]).toLocaleDateString();
-                container.innerHTML += `
-                    <div class="bg-white p-4 rounded shadow border-l-4 border-blue-800">
-                        <h4 class="text-lg font-bold">${data[i][1]}</h4>
-                        <p class="text-sm text-gray-500 mb-2">${date} • Posted by ${data[i][3]}</p>
-                        <p>${data[i][2]}</p>
-                    </div>
-                `;
-            }
-        }
-
-        async function postAnnouncement() {
-            const title = document.getElementById('ann-title').value;
-            const content = document.getElementById('ann-content').value;
-            if (!title || !content) return alert('Please fill in all fields.');
-
-            toggleLoading(true);
-            await fetchAPI('postAnnouncement', { title, content, author: currentUser.name });
-            toggleLoading(false);
-            
-            document.getElementById('ann-title').value = '';
-            document.getElementById('ann-content').value = '';
-            alert('Announcement Published!');
-        }
-
-        async function loadRoster() {
-            const data = await fetchAPI('getBrigadiers');
-            const container = document.getElementById('roster-container');
-            if (!data || data.length <= 1) {
-                container.innerHTML = '<p>No learners enrolled yet.</p>';
-                return;
-            }
-
-            let html = '<table class="w-full text-left border-collapse"><thead><tr><th class="border-b p-2">Brigadier</th><th class="border-b p-2">Status</th></tr></thead><tbody>';
-            // Assuming Brigadier Name is in column index 1 (2nd column)
-            for (let i = 1; i < data.length; i++) {
-                const name = data[i][1];
-                html += `
-                    <tr>
-                        <td class="border-b p-2">${name}</td>
-                        <td class="border-b p-2">
-                            <select data-name="${name}" class="attendance-select p-1 border rounded">
-                                <option value="Present">Present</option>
-                                <option value="Absent">Absent</option>
-                                <option value="Excused">Excused</option>
-                            </select>
-                        </td>
-                    </tr>
-                `;
-            }
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        async function submitAttendance() {
-            const date = document.getElementById('att-date').value;
-            const classTaught = document.getElementById('att-class').value;
-            
-            if (!date || !classTaught) return alert('Please select a date and class taught.');
-
-            const selects = document.querySelectorAll('.attendance-select');
-            const records = Array.from(selects).map(select => ({
-                name: select.getAttribute('data-name'),
-                status: select.value
-            }));
-
-            toggleLoading(true);
-            const response = await fetchAPI('submitAttendance', {
-                teacher: currentUser.name,
-                date: date,
-                classTaught: classTaught,
-                records: records
-            });
-            toggleLoading(false);
-
-            if (response && response.success) {
-                alert('Attendance successfully recorded!');
-                document.getElementById('att-date').value = '';
-                document.getElementById('att-class').value = '';
-            }
-        }
-
-        // Initialize App
-        window.onload = () => showPage('home');
-    </script>
+    loadAnnouncements();
+</script>
 </body>
 </html>
