@@ -492,7 +492,7 @@ const fmt=d=>d?new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric'
 const todayS=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
 
 /* ===== Google Apps Script backend endpoint ===== */
-const API_URL='PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+const API_URL='https://script.google.com/macros/s/AKfycbw9DwJd9Bi5TpBaF_KieX04vQFYtaYTEZdQnCGrXgL4TuyqGFG4bftG5jUI4ewlxnVMtA/exec';
 /* e.g. https://script.google.com/macros/s/AKfycb.../exec  (must end in /exec) */
 
 const gs=(fn,...args)=>
