@@ -491,7 +491,25 @@ const cosOf=g=>S.sess.scopes.filter(x=>x.congregation===g).map(x=>x.company);
 const fmt=d=>d?new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
 const todayS=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
 
-const gs=(fn,...a)=>new Promise((ok,no)=>{if(!window.google||!google.script)return no(new Error('offline'));google.script.run.withSuccessHandler(ok).withFailureHandler(no)[fn](...a)});
+/* ===== Google Apps Script backend endpoint ===== */
+const API_URL='PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+/* e.g. https://script.google.com/macros/s/AKfycb.../exec  (must end in /exec) */
+
+const gs=(fn,...args)=>
+  fetch(API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'}, // text/plain avoids CORS preflight
+    body:JSON.stringify({fn,args}),
+    redirect:'follow'
+  })
+  .then(r=>r.text())
+  .then(t=>{
+    let d;
+    try{d=JSON.parse(t)}
+    catch(_){throw new Error('Backend did not return JSON. Check that the deployment URL ends in /exec and access is set to Anyone.')}
+    if(d.error)throw new Error(d.error);
+    return d.result;
+  });
 function toast(m,t=''){const e=document.createElement('div');e.className='toast '+t;e.textContent=m;$('#toasts').append(e);setTimeout(()=>e.remove(),4200)}
 const fail=m=>e=>{const msg=(e&&e.message||'').replace(/^Error:\s*/,'');
   if(/Session expired/i.test(msg)){logout();return toast('Your session expired. Please sign in again.','error')}
